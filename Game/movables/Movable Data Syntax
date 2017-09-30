@@ -1,0 +1,16 @@
+1: name of Object
+2: [l: lamp s: static a: animated p: particle m: sound-source]
+	if l: float: colour.r float: colour.g float: colour.b
+			float: attenuation float: attenuation.lin float: attenuation.sqr
+	
+	if s: String: objFile String: textureFile float: shineDamper float: reflectivity
+	
+	if a: String: colladaFile String: textureFile String: animationFile float: shineDamper
+			float: reflectivity
+	
+	if p: String: textureFile int: numberOfRows float: particlesPerSecond
+			float: speed float: gravityCompliant float: lifeLength float: scale float: lifeError
+			float: speedError float: scaleError boolean: randomizeRotation float: startingSpread
+
+	if m: String: sourceFileName float: xPos float: yPos float: zPos int: rolloff int: referenceDist
+			int: maxDist boolean: looping float: pitch float: volume
