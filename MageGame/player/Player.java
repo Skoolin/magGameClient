@@ -157,27 +157,30 @@ public class Player extends GameObject {
 
 			} else if ((runePosition1 != 0) && (runePosition2 != 0) && (runePosition3 == 0)) {
 				Vector3f mouseTarget = Engine.getMouseAtHeight(0f);
-				byte[] output = new byte[13];
+				byte[] output = new byte[14];
+				//TODO send rune id instead of fixed fireball id
 				output[0] = 0x02;
-				output[1] = (byte) ((runePosition1 << 4) + runePosition2);
-				output[2] = 0x00;
+				output[1] = (byte) 4;
+				output[2] = (byte) 14;
+				output[3] = 0x00;
 				int bits1 = Float.floatToIntBits(mouseTarget.x);
 				int bits2 = Float.floatToIntBits(mouseTarget.z);
-				output[6] = (byte) (bits1 & 0xff);
-				output[5] = (byte) ((bits1 >> 8) & 0xff);
-				output[4] = (byte) ((bits1 >> 16) & 0xff);
-				output[3] = (byte) ((bits1 >> 24) & 0xff);
-				output[10] = (byte) (bits2 & 0xff);
-				output[9] = (byte) ((bits2 >> 8) & 0xff);
-				output[8] = (byte) ((bits2 >> 16) & 0xff);
-				output[7] = (byte) ((bits2 >> 24) & 0xff);
-				output[11] = 0x00;
+				output[7] = (byte) (bits1 & 0xff);
+				output[6] = (byte) ((bits1 >> 8) & 0xff);
+				output[5] = (byte) ((bits1 >> 16) & 0xff);
+				output[4] = (byte) ((bits1 >> 24) & 0xff);
+				output[11] = (byte) (bits2 & 0xff);
+				output[10] = (byte) ((bits2 >> 8) & 0xff);
+				output[9] = (byte) ((bits2 >> 16) & 0xff);
+				output[8] = (byte) ((bits2 >> 24) & 0xff);
 				output[12] = 0x00;
+				output[13] = 0x00;
 				ClientTester.client.writeOut(output);
 				// TODO
 				finishCast();
 
 			} else if ((runePosition1 != 0) && (runePosition2 != 0) && (runePosition3 != 0)) {
+				//TODO, changed network protocol!!!
 				Vector3f mouseTarget = Engine.getMouseAtHeight(0f);
 				byte[] output = new byte[13];
 				output[0] = 0x02;
