@@ -12,8 +12,8 @@ public class MainListenerClient extends Thread {
 	private DataInputStream in;
 
 	public MainListenerClient() throws UnknownHostException, IOException {
-//		String ip = "magegame.intellikt.de";
-		String ip = "localhost";
+		String ip = "magegame.intellikt.de";
+//		String ip = "localhost";
 		int port = 8082;
 		socketConnect(ip, port);
 		out = new DataOutputStream(socket.getOutputStream());
