@@ -122,19 +122,19 @@ public class Player extends GameObject {
 				if (runePosition3 == 0) {
 					if (!isRunePos1Pressed && Keyboard.isKeyDown(Keyboard.KEY_Q)) {
 						isRunePos1Pressed = true;
-						activateRune(1);
+						activateRune(0);
 					}
 					if (!isRunePos2Pressed && Keyboard.isKeyDown(Keyboard.KEY_W)) {
 						isRunePos2Pressed = true;
-						activateRune(2);
+						activateRune(1);
 					}
 					if (!isRunePos3Pressed && Keyboard.isKeyDown(Keyboard.KEY_E)) {
 						isRunePos3Pressed = true;
-						activateRune(3);
+						activateRune(2);
 					}
 					if (!isRunePos4Pressed && Keyboard.isKeyDown(Keyboard.KEY_R)) {
 						isRunePos4Pressed = true;
-						activateRune(4);
+						activateRune(3);
 					}
 
 				}
@@ -157,47 +157,54 @@ public class Player extends GameObject {
 
 			} else if ((runePosition1 != 0) && (runePosition2 != 0) && (runePosition3 == 0)) {
 				Vector3f mouseTarget = Engine.getMouseAtHeight(0f);
-				byte[] output = new byte[14];
+				byte[] output = new byte[17];
 				//TODO send rune id instead of fixed fireball id
 				output[0] = 0x02;
-				output[1] = (byte) 4;
-				output[2] = (byte) 14;
+				output[1] = (byte) mage.getRune(runePosition1).getType();
+				output[2] = (byte) mage.getRune(runePosition2).getType();
 				output[3] = 0x00;
+				output[4] = (byte) runePosition1;
+				output[5] = (byte) runePosition2;
+				output[6] = 0x00;
 				int bits1 = Float.floatToIntBits(mouseTarget.x);
 				int bits2 = Float.floatToIntBits(mouseTarget.z);
-				output[7] = (byte) (bits1 & 0xff);
-				output[6] = (byte) ((bits1 >> 8) & 0xff);
-				output[5] = (byte) ((bits1 >> 16) & 0xff);
-				output[4] = (byte) ((bits1 >> 24) & 0xff);
-				output[11] = (byte) (bits2 & 0xff);
-				output[10] = (byte) ((bits2 >> 8) & 0xff);
-				output[9] = (byte) ((bits2 >> 16) & 0xff);
-				output[8] = (byte) ((bits2 >> 24) & 0xff);
-				output[12] = 0x00;
-				output[13] = 0x00;
+				output[10] = (byte) (bits1 & 0xff);
+				output[9] = (byte) ((bits1 >> 8) & 0xff);
+				output[8] = (byte) ((bits1 >> 16) & 0xff);
+				output[7] = (byte) ((bits1 >> 24) & 0xff);
+				output[14] = (byte) (bits2 & 0xff);
+				output[13] = (byte) ((bits2 >> 8) & 0xff);
+				output[12] = (byte) ((bits2 >> 16) & 0xff);
+				output[11] = (byte) ((bits2 >> 24) & 0xff);
+				output[15] = 0x00;
+				output[16] = 0x00;
 				ClientTester.client.writeOut(output);
 				// TODO
 				finishCast();
 
 			} else if ((runePosition1 != 0) && (runePosition2 != 0) && (runePosition3 != 0)) {
-				//TODO, changed network protocol!!!
 				Vector3f mouseTarget = Engine.getMouseAtHeight(0f);
-				byte[] output = new byte[13];
+				byte[] output = new byte[17];
+				//TODO send rune id instead of fixed fireball id
 				output[0] = 0x02;
-				output[1] = (byte) ((runePosition1 << 4) + runePosition2);
-				output[2] = (byte) (runePosition3 << 4);
+				output[1] = (byte) mage.getRune(runePosition1).getType();
+				output[2] = (byte) mage.getRune(runePosition2).getType();
+				output[3] = (byte) mage.getRune(runePosition3).getType();
+				output[4] = (byte) runePosition1;
+				output[5] = (byte) runePosition2;
+				output[6] = (byte) runePosition2;
 				int bits1 = Float.floatToIntBits(mouseTarget.x);
 				int bits2 = Float.floatToIntBits(mouseTarget.z);
-				output[6] = (byte) (bits1 & 0xff);
-				output[5] = (byte) ((bits1 >> 8) & 0xff);
-				output[4] = (byte) ((bits1 >> 16) & 0xff);
-				output[3] = (byte) ((bits1 >> 24) & 0xff);
-				output[10] = (byte) (bits2 & 0xff);
-				output[9] = (byte) ((bits2 >> 8) & 0xff);
-				output[8] = (byte) ((bits2 >> 16) & 0xff);
-				output[7] = (byte) ((bits2 >> 24) & 0xff);
-				output[11] = 0x00;
-				output[12] = 0x00;
+				output[10] = (byte) (bits1 & 0xff);
+				output[9] = (byte) ((bits1 >> 8) & 0xff);
+				output[8] = (byte) ((bits1 >> 16) & 0xff);
+				output[7] = (byte) ((bits1 >> 24) & 0xff);
+				output[14] = (byte) (bits2 & 0xff);
+				output[13] = (byte) ((bits2 >> 8) & 0xff);
+				output[12] = (byte) ((bits2 >> 16) & 0xff);
+				output[11] = (byte) ((bits2 >> 24) & 0xff);
+				output[15] = 0x00;
+				output[16] = 0x00;
 				ClientTester.client.writeOut(output);
 				// TODO
 				finishCast();
