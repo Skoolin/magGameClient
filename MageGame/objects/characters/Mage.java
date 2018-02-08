@@ -37,7 +37,7 @@ public class Mage extends LivingObject {
 		return _myRunes;
 	}
 
-	/** done with get - methods */
+	/* done with get - methods */
 
 	/**
 	 * adds a Rune, used by Player probably
@@ -48,22 +48,4 @@ public class Mage extends LivingObject {
 	public void addRune(int index, Rune rune) {
 		_myRunes.addRune(index, rune);
 	}
-
-	/**
-	 * done leveling
-	 */
-
-	/**
-	 * now casting, yay
-	 */
-
-	public void cast(int runeIndex1, int runeIndex2, Vector3f target) {
-		Spells.invokeSpell(this, new Rune(runeIndex1, 1), new Rune(runeIndex2, 1), target);
-	}
-
-	public void cast(int runeIndex1, int runeIndex2, int runeIndex3) {
-		Spells.invokeSpell(this, _myRunes.getRune(runeIndex1), _myRunes.getRune(runeIndex2),
-				_myRunes.getRune(runeIndex3), Engine.getMouseAtHeight(0));
-	}
-
 }

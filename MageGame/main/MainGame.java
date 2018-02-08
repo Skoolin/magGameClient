@@ -20,6 +20,7 @@ import player.Player;
 import renderEngine.Engine;
 import renderEngine.Game;
 import runes.RuneSet;
+import runes.Spells;
 import statics.Const;
 import userInterface.UI;
 
@@ -130,15 +131,12 @@ public class MainGame implements Game {
 					break;
 
 				case 0x02: // CAST
-					if (mageRefs.containsKey(((byteArray[3] & 0xff) << 8) | (byteArray[4] & 0xff))) {
+					int mageId = ((byteArray[3] & 0xff) << 8) | (byteArray[4] & 0xff);
+					if (mageRefs.containsKey(mageId)) {
 
-						switch (((byteArray[1] & 0xff) << 8) | (byteArray[2] & 0xff)) {
-						case 23:
-							parseFireBall(byteArray);
-							break;
-						default:
-							break;
-						}
+						int spellId = ((byteArray[1] & 0xff) << 8) | (byteArray[2] & 0xff);
+
+						Spells.invokeSpell(mageRefs.get(mageId), spellId, byteArray);
 					}
 					break;
 
@@ -174,23 +172,6 @@ public class MainGame implements Game {
 		if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
 			Engine.end();
 		}
-	}
-
-	private void parseFireBall(byte[] byteArray) {
-		Mage toChange = mageRefs.get(((byteArray[3] & 0xff) << 8) | (byteArray[4] & 0xff));
-		byte[] timePart = new byte[8];
-
-		for (int i = 0; i < 8; i++) {
-			timePart[i] = byteArray[i + 13];
-		}
-
-		long time = bytesToLong(timePart);
-		// TODO use timePassed to move already passed space
-		long timePassed = (System.nanoTime() / 1_000_000) - (time + delay);
-
-		toChange.cast(4, 5, new Vector3f(
-				ByteBuffer.wrap(new byte[] { byteArray[5], byteArray[6], byteArray[7], byteArray[8] }).getFloat(), 0f,
-				ByteBuffer.wrap(new byte[] { byteArray[9], byteArray[10], byteArray[11], byteArray[12] }).getFloat()));
 	}
 
 	@Override

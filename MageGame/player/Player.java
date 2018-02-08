@@ -48,7 +48,7 @@ public class Player extends GameObject {
 		mage.setTarget(new Vector3f(mage.movable.getPosition()));
 		mage.addRune(1, new Rune(4, 1));
 		mage.addRune(2, new Rune(5, 1));
-		mage.addRune(3, new Rune(6, 1));
+		mage.addRune(3, new Rune(7, 1));
 	}
 
 	@Override
@@ -182,7 +182,7 @@ public class Player extends GameObject {
 				// TODO
 				finishCast();
 
-			} else if ((runePosition1 != 0) && (runePosition2 != 0) && (runePosition3 != 0)) {
+			} else if ((runePosition1 != 0) && (runePosition2 != 0)) {
 				Vector3f mouseTarget = Engine.getMouseAtHeight(0f);
 				byte[] output = new byte[17];
 				//TODO send rune id instead of fixed fireball id

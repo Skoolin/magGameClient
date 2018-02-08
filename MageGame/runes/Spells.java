@@ -1,5 +1,6 @@
 package runes;
 
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import objects.characters.Mage;
@@ -20,118 +21,67 @@ import spells.UselessLightSpell;
 import spells.WallSpell;
 import spells.XerathSpell;
 
+import java.nio.ByteBuffer;
+
 public class Spells {
 
-	public static void invokeSpell(Mage mage, Rune rune1, Rune rune2, Vector3f target) {
-		switch (rune1.getType()) {
-		case 1: // Rune for life, not implemented yet
+	public static void invokeSpell(Mage mage, int spellId, byte[] spellInfoBuffer) {
 
-			break;
-		case 2: // Rune for death, not implemented yet
+		switch (spellId) {
+			case 16:
 
-			break;
-		case 3: // Rune for persistence, not implemented yet
+				break;
+			case 23:
+				float target_x = ByteBuffer.wrap(
+						new byte[] {spellInfoBuffer[5],
+									spellInfoBuffer[6],
+									spellInfoBuffer[7],
+									spellInfoBuffer[8]}).getFloat();
+				float target_z = ByteBuffer.wrap(
+						new byte[] {spellInfoBuffer[9],
+									spellInfoBuffer[10],
+									spellInfoBuffer[11],
+									spellInfoBuffer[12]}).getFloat();
+				Vector3f target = new Vector3f(target_x, 0f, target_z);
+				EnergyBallSpell.cast(mage, target);
 
-			break;
-		case 4: // Rune for thrust
-			castThrust(rune1, rune2, mage, target);
-			break;
-		case 5: // Rune for energy
-			castEnergy(rune1, rune2, mage, target);
-			break;
-		case 6: // Rune for vision
-			castVision(rune1, rune2, mage, target);
-			break;
-		case 7: // Rune for protection
-			castProtection(rune1, rune2, mage, target);
-			break;
-		default:
-			// no rune activated, shouldn't do anything
-			break;
+				break;
+			case 41:
+
+				break;
+			case 24:
+				target_x = ByteBuffer.wrap(
+						new byte[] {spellInfoBuffer[5],
+								spellInfoBuffer[6],
+								spellInfoBuffer[7],
+								spellInfoBuffer[8]}).getFloat();
+				target_z = ByteBuffer.wrap(
+						new byte[] {spellInfoBuffer[9],
+								spellInfoBuffer[10],
+								spellInfoBuffer[11],
+								spellInfoBuffer[12]}).getFloat();
+				target = new Vector3f(target_x, 0f, target_z);
+				FlashSpell.cast(mage, target);
+
+				break;
+			case 32:
+
+				break;
+			case 53:
+
+				break;
+			case 45:
+
+				break;
+			case 55:
+
+				break;
+			case 78:
+
+				break;
+			default:
+				// no known spell, shouldnt be doing anything
+				break;
 		}
-	}
-
-	private static void castThrust(Rune first, Rune second, Mage mage, Vector3f target) {
-		switch (second.getType()) {
-		case 4: // Rune for Thrust
-			ShockwaveSpell.cast(mage, target, first, second);
-			break;
-		case 5: // Rune for energy
-			EnergyBallSpell.cast(mage, target, first, second);
-			break;
-		case 6: // Rune for vision
-			UselessLightSpell.cast(mage, target, first, second);
-			break;
-		case 7: // Rune for protection
-			MovingDmgShieldSpell.cast(mage, target, first, second);
-			break;
-		default:
-			// no rune activated, shouldn't do anything
-			break;
-		}
-	}
-
-	private static void castEnergy(Rune first, Rune second, Mage mage, Vector3f target) {
-		switch (second.getType()) {
-		case 4: // Rune for Thrust
-			FlashSpell.cast(mage, target, first, second);
-			break;
-		case 5: // Rune for energy
-			HomingAttackSpell.cast(mage, target, first, second);
-			break;
-		case 6: // Rune for vision
-			ShowRunesSpell.cast(mage, target, first, second);
-			break;
-		case 7: // Rune for protection
-			DamageReductionAreaSpell.cast(mage, first, second);
-			break;
-		default:
-			// no rune activated, shouldn't do anything
-			break;
-		}
-	}
-
-	private static void castVision(Rune first, Rune second, Mage mage, Vector3f target) {
-		switch (second.getType()) {
-		case 4: // Rune for Thrust
-			XerathSpell.cast(mage, target, first, second);
-			break;
-		case 5: // Rune for energy
-			LightningStrikeSpell.cast(mage, target, first, second);
-			break;
-		case 6: // Rune for vision
-			StealthSpell.cast(mage, first, second);
-			break;
-		case 7: // Rune for protection
-			HealSpell.cast(mage, target, first, second);
-			break;
-		default:
-			// no rune activated, shouldn't do anything
-			break;
-		}
-	}
-
-	private static void castProtection(Rune first, Rune second, Mage mage, Vector3f target) {
-		switch (second.getType()) {
-		case 4: // Rune for Thrust
-			WallSpell.cast(mage, target, first, second);
-			break;
-		case 5: // Rune for energy
-			DmgShieldSpell.cast(mage, target, first, second);
-			break;
-		case 6: // Rune for vision
-			ProjectileShieldSpell.cast(mage, target, first, second);
-			break;
-		case 7: // Rune for protection
-			ResistancesSpell.cast(mage, first, second);
-			break;
-		default:
-			// no rune activated, shouldn't do anything
-			break;
-		}
-	}
-
-	public static void invokeSpell(Mage mage, Rune rune, Rune rune2, Rune rune3, Vector3f target) {
-		// nothing to see here
 	}
 }
