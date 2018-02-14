@@ -120,13 +120,18 @@ public class MainGame implements Game {
 								.getFloat();
 
 						Vector2f toAdd = Vector2f.sub(new Vector2f(xTarget, zTarget), new Vector2f(xPos, zPos), null);
-						toAdd.normalise();
+						if(toAdd.lengthSquared() > 0) {
+							toAdd.normalise();
 
-						xPos += toAdd.x * (((float) timePassed) / 1_000f) * toChange.getSpeed();
-						zPos += toAdd.y * (((float) timePassed) / 1_000f) * toChange.getSpeed();
+							xPos += toAdd.x * (((float) timePassed) / 1_000f) * toChange.getSpeed();
+							zPos += toAdd.y * (((float) timePassed) / 1_000f) * toChange.getSpeed();
 
-						toChange.setTarget(new Vector3f(xTarget, 0f, zTarget));
-						toChange.movable.setPosition(new Vector3f(xPos, 0f, zPos));
+							toChange.setTarget(new Vector3f(xTarget, 0f, zTarget));
+							toChange.movable.setPosition(new Vector3f(xPos, 0f, zPos));
+						} else {
+							toChange.setTarget(new Vector3f(xTarget, 0f, zTarget));
+							toChange.movable.setPosition(new Vector3f(xTarget, 0f, zTarget));
+						}
 					}
 					break;
 

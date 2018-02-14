@@ -55,7 +55,7 @@ public class ParticleEditor extends JFrame {
 
 		// make sure the program exits when the frame closes
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Mob File Editor");
+		setTitle("Particle File Editor");
 		setSize(424, 1000);
 
 		// This will center the JFrame in the middle of the screen
