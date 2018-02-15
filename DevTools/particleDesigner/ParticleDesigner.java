@@ -6,7 +6,7 @@ import renderEngine.Game;
 
 public class ParticleDesigner implements GameStarter {
 
-	String fileName = "test";
+	String fileName = "sparkles";
 	static ParticleDesigner designer;
 
 	public static void main(String[] args) {

@@ -32,7 +32,7 @@ public class MainGame implements Game {
 	private GuiTexture cursor;
 	private long delay;
 
-	private Object sharedLock = new Object();
+	private final Object sharedLock = new Object();
 
 	public MainGame() {
 		mageRefs = new HashMap<>();

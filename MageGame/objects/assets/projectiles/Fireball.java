@@ -1,5 +1,6 @@
 package objects.assets.projectiles;
 
+import loaders.PTKLoader;
 import org.lwjgl.util.vector.Vector3f;
 
 import entities.Entity;
@@ -14,8 +15,7 @@ public class Fireball extends Projectile {
 	Entity center;
 
 	public Fireball(int team, Vector3f target, Vector3f position) {
-		super(Engine.addParticleSystem("fire", 8, position.x, position.y, position.z, 20f, 1f, 0f, 1f, 5f, 0.25f, 0.1f,
-				0.1f, true, 0.3f), target, team, position);
+		super(PTKLoader.loadPTKFile("fireball", position.x, position.y + 3, position.z), target, team, position);
 
 		center = Engine.addStaticEntity(movable.getPosition(), new Vector3f(0f, 0f, 0f), 0.2f,
 				ModelNames.BARREL.getFileName(), TextureNames.BARREL.getFileName());

@@ -13,7 +13,7 @@ public class Explosion extends GameObject {
 	private static final float lifeLength = 1f;
 
 	public Explosion(Vector3f position) {
-		super(Engine.addParticleSystem("fire", 8, position.x, position.y, position.z, 40f, 2f, 0f, 2f, 6f, 0.1f, 0.1f, 0.1f, true, 0f));
+		super(Engine.addParticleSystem("fire", 8, position.x, position.y + 3, position.z, 40f, 2f, 0f, 2f, 6f, 0.1f, 0.1f, 0.1f, true, 0f));
 		timer = 0f;
 	}
 
