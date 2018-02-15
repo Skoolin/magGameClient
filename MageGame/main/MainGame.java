@@ -172,21 +172,21 @@ public class MainGame implements Game {
 					break;
 
 					case 0x0C: // CHANGEHEALTH OBJECT
-						Integer key = ((byteArray[3] & 0xff) << 24)
-								| ((byteArray[3] & 0xff) << 16)
+						Integer key = ((byteArray[1] & 0xff) << 24)
+								| ((byteArray[2] & 0xff) << 16)
 								|((byteArray[3] & 0xff) << 8)
 								| (byteArray[4] & 0xff);
 						if (objectRefs.containsKey(key)) {
 							LivingObject toChange = objectRefs.get(key);
 
-							int health = ((byteArray[3] & 0xff) << 8) | (byteArray[4] & 0xff);
+							int health = ((byteArray[5] & 0xff) << 8) | (byteArray[6] & 0xff);
 							toChange.setHP(health);
 						}
 						break;
 
 					case 0x0D: // remove OBJECTCT
-						key = ((byteArray[3] & 0xff) << 24)
-								| ((byteArray[3] & 0xff) << 16)
+						key = ((byteArray[1] & 0xff) << 24)
+								| ((byteArray[2] & 0xff) << 16)
 								|((byteArray[3] & 0xff) << 8)
 								| (byteArray[4] & 0xff);
 						if (objectRefs.containsKey(key)) {
