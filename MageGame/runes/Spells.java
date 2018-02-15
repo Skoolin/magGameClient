@@ -1,5 +1,6 @@
 package runes;
 
+import objects.characters.LivingObject;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -25,13 +26,13 @@ import java.nio.ByteBuffer;
 
 public class Spells {
 
-	public static void invokeSpell(Mage mage, int spellId, byte[] spellInfoBuffer) {
+	public static LivingObject invokeSpell(Mage mage, int spellId, byte[] spellInfoBuffer) {
 
 		switch (spellId) {
-			case 16:
+			case 16: // shockwave
 
 				break;
-			case 23:
+			case 23: // Energy Ball
 				float target_x = ByteBuffer.wrap(
 						new byte[] {spellInfoBuffer[5],
 									spellInfoBuffer[6],
@@ -46,10 +47,25 @@ public class Spells {
 				EnergyBallSpell.cast(mage, target);
 
 				break;
-			case 41:
+			case 41: // moving damage shield
+				target_x = ByteBuffer.wrap(
+						new byte[] {spellInfoBuffer[5],
+								spellInfoBuffer[6],
+								spellInfoBuffer[7],
+								spellInfoBuffer[8]}).getFloat();
+				target_z = ByteBuffer.wrap(
+						new byte[] {spellInfoBuffer[9],
+								spellInfoBuffer[10],
+								spellInfoBuffer[11],
+								spellInfoBuffer[12]}).getFloat();
+				target = new Vector3f(target_x, 0f, target_z);
+				int objId = (spellInfoBuffer[13] & 0xFF) << 24
+						| (spellInfoBuffer[14] & 0xFF) << 16
+						| (spellInfoBuffer[15] & 0xFF) << 8
+						| (spellInfoBuffer[16] & 0xFF);
+				return MovingDmgShieldSpell.cast(mage, target, objId);
 
-				break;
-			case 24:
+			case 24: // Flash
 				target_x = ByteBuffer.wrap(
 						new byte[] {spellInfoBuffer[5],
 								spellInfoBuffer[6],
@@ -64,24 +80,29 @@ public class Spells {
 				FlashSpell.cast(mage, target);
 
 				break;
-			case 32:
+			case 32: // homing missile attack
 
 				break;
-			case 53:
+			case 53: // damage reduction area
 
 				break;
-			case 45:
+			case 45: // wall
 
 				break;
-			case 55:
+			case 55: // damage shield
 
 				break;
-			case 78:
+			case 78: // resistance
+
+				break;
+			case 114: // fireball
 
 				break;
 			default:
 				// no known spell, shouldnt be doing anything
 				break;
 		}
+
+		return null;
 	}
 }

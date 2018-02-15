@@ -11,8 +11,8 @@ public class Mage extends LivingObject {
 
 	private RuneSet _myRunes;
 
-	public Mage(int faction, RuneSet runes, Vector3f position) {
-		super("mage", new Vector3f(position));
+	public Mage(int faction, RuneSet runes, Vector3f position, int mageId) {
+		super("mage", new Vector3f(position), mageId);
 		_faction = faction;
 		_myRunes = runes;
 	}

@@ -49,8 +49,9 @@ public abstract class LivingObject extends GameObject {
 	protected int _faction;
 
 	protected String animationName;
+	protected int objId;
 
-	public LivingObject(String fileName, Vector3f position) {
+	public LivingObject(String fileName, Vector3f position, int objId) {
 		super();
 		this.isAnimated = Boolean.parseBoolean(LivingObjectParameter.HAS_ANIMATION.getProperty(fileName));
 		movable = register(fileName, position);
@@ -66,7 +67,7 @@ public abstract class LivingObject extends GameObject {
 		this.health = maxHealth;
 		this.damageMultiplier = Integer.parseInt(LivingObjectParameter.DAMAGE_MULTIPLIER.getProperty(fileName));
 		this.buffs = new ArrayList<>();
-
+		this.objId = objId;
 		healthBar = new HealthBar(position);
 	}
 
@@ -107,6 +108,10 @@ public abstract class LivingObject extends GameObject {
 
 	public boolean isAlife() {
 		return alife;
+	}
+
+	public int getObjId() {
+		return objId;
 	}
 
 	/** end of get - methods */

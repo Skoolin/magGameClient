@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import objects.characters.LivingObject;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import entities.Entity;
 import guis.GuiTexture;
 import objects.administration.TextureNames;
 import objects.characters.Mage;
@@ -29,6 +29,7 @@ public class MainGame implements Game {
 	private List<byte[]> serverCommands;
 	private Player player;
 	private Map<Integer, Mage> mageRefs;
+	private Map<Integer, LivingObject> objectRefs;
 	private GuiTexture cursor;
 	private long delay;
 
@@ -36,6 +37,7 @@ public class MainGame implements Game {
 
 	public MainGame() {
 		mageRefs = new HashMap<>();
+		objectRefs = new HashMap<>();
 		serverCommands = Collections.synchronizedList(new ArrayList<byte[]>());
 		cursor = Engine.addGui("textures/ling", Const.SCREEN_WIDTH - Mouse.getX(), Const.SCREEN_HEIGHT - Mouse.getY(),
 				0.015f, 0.015f);
@@ -76,9 +78,11 @@ public class MainGame implements Game {
 											1, 1),
 									new Vector3f(ByteBuffer
 											.wrap(new byte[] { byteArray[3], byteArray[4], byteArray[5], byteArray[6] })
-											.getFloat(), 0f,
+											.getFloat(),
+											0f,
 											ByteBuffer.wrap(new byte[] { byteArray[7], byteArray[8], byteArray[9],
-													byteArray[10] }).getFloat())));
+													byteArray[10] }).getFloat()),
+									((byteArray[1] & 0xff) << 8) | (byteArray[2] & 0xff)));
 					break;
 				case 0x06:
 					Vector3f pos = new Vector3f(
@@ -141,7 +145,11 @@ public class MainGame implements Game {
 
 						int spellId = ((byteArray[1] & 0xff) << 8) | (byteArray[2] & 0xff);
 
-						Spells.invokeSpell(mageRefs.get(mageId), spellId, byteArray);
+						LivingObject object = Spells.invokeSpell(mageRefs.get(mageId), spellId, byteArray);
+
+						if (object != null) {
+							objectRefs.put(object.getObjId(), object);
+						}
 					}
 					break;
 
@@ -163,8 +171,33 @@ public class MainGame implements Game {
 					}
 					break;
 
-				default:
-					break;
+					case 0x0C: // CHANGEHEALTH OBJECT
+						Integer key = ((byteArray[3] & 0xff) << 24)
+								| ((byteArray[3] & 0xff) << 16)
+								|((byteArray[3] & 0xff) << 8)
+								| (byteArray[4] & 0xff);
+						if (objectRefs.containsKey(key)) {
+							LivingObject toChange = objectRefs.get(key);
+
+							int health = ((byteArray[3] & 0xff) << 8) | (byteArray[4] & 0xff);
+							toChange.setHP(health);
+						}
+						break;
+
+					case 0x0D: // remove OBJECTCT
+						key = ((byteArray[3] & 0xff) << 24)
+								| ((byteArray[3] & 0xff) << 16)
+								|((byteArray[3] & 0xff) << 8)
+								| (byteArray[4] & 0xff);
+						if (objectRefs.containsKey(key)) {
+							LivingObject toChange = objectRefs.get(key);
+							toChange.exit();
+							objectRefs.remove(key);
+						}
+						break;
+
+					default:
+						break;
 
 				}
 			}

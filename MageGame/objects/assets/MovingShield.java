@@ -1,26 +1,26 @@
 package objects.assets;
 
+import entities.Movable;
 import org.lwjgl.util.vector.Vector3f;
-
 import objects.characters.LivingObject;
-import renderEngine.DisplayManager;
 
 public class MovingShield extends LivingObject {
 
-	private float age;
+	private Vector3f startingPos;
+	private Vector3f directionVector;
 
-	public MovingShield(Vector3f position, int team, Vector3f target) {
-		super("movingShield", position);
+	public MovingShield(Vector3f position, int team, Vector3f target, int objId) {
+		super("movingShield", position, objId);
 		this._faction = team;
 		this.target = new Vector3f(target);
-		this.age = 0f;
-
+		this.startingPos = new Vector3f(position);
 	}
 
 	public void update() {
 		super.update();
-		age += DisplayManager.getFrameTime();
-		if (age > attackTime) {
+
+		float distanceSq = movable.distanceSqr(startingPos);
+		if (distanceSq > attackRange * attackRange) {
 			destroy();
 			return;
 		}

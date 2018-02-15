@@ -44,7 +44,7 @@ public class Player extends GameObject {
 	public Player(int newfaction) {
 		super();
 		faction = newfaction;
-		mage = new Mage(faction, new RuneSet(3, 1, faction), new Vector3f(0, 0, 0));
+		mage = new Mage(faction, new RuneSet(3, 1, faction), new Vector3f(0, 0, 0), 0);
 		mage.setTarget(new Vector3f(mage.movable.getPosition()));
 		mage.addRune(1, new Rune(4, 1));
 		mage.addRune(2, new Rune(5, 1));
