@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import entities.Camera;
 import objects.characters.LivingObject;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -54,8 +55,11 @@ public class MainGame implements Game {
 
 		player = new Player(1);
 
+		Camera cam = Engine.setStaticCamera();
+		Vector3f.add(cam.getPosition(), new Vector3f(0f, 60f, 0f), cam.getPosition());
+
 		Engine.addLight(10000, 10000, 10000, new Vector3f(1f, 1f, 1f), new Vector3f(1f, 0f, 0f));
-		Mouse.setGrabbed(false);
+//		Mouse.setGrabbed(false);
 	}
 
 	public void setTimeDelay(long newDelay) {
